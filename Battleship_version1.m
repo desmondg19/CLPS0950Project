@@ -62,8 +62,6 @@ for i = 1:length(shiplist)
     end
 end
 
-
-
 totalrounds = input('How many guesses do you want to have? (Must be 17 or more)');
 currentrounds = 1;
 sink_count = 0;
