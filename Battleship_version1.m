@@ -129,7 +129,7 @@ for i = 1:length(ships)
         disp(strcat('You are placing the', ships(i), '.'));
         disp(strcat('It is', {' '}, num2str(shiplength(i)), ' units in length.'))
         
-        [xpos, ypos, direction] = shipplacer()
+        [xpos, ypos, direction] = playershipplacer()
         
         size = shiplength(i);
         
@@ -178,3 +178,5 @@ for i = 1:length(ships)
         end
     end
 end
+
+board = shipplacer(shiplist, shiplength);
