@@ -19,51 +19,14 @@ mesh(X,Y)
 view(2)
 
 %% One player version of the game
-board=zeros(10);
 % the code within this next for loop allows the computer to randomly
 % generate the positions of the ship on the game board matrix, named board.
+% turned all the code in the previous for loop into a function
+%   called shipplacer. we should be able to replace this wiht a call to
+%   that function. that function can also be used for two player versions.
 
-for i = 1:length(shiplist)
-    placed = false;
-    size = shiplength(i);
-    while placed == false
-        x = randi(10); %picks a random starting x coordinate
-        y = randi(10); %picks a random starting y coordinate
-        direction = randi(2); %1 = horizontal placement; 2 = vertical
-        
-        if direction == 1
-            if y + size - 1 <= 10
-                valid = 1;
-                for j = 1:size
-                    if board(x, y+j-1) ~= 0
-                        valid = 0;
-                    end
-                end
-                if valid == 1
-                    for j = 1:size
-                        board(x, y - 1 + j) = shiplist(i);
-                    end
-                    placed = true;
-                end
-            end
-        else
-            if x + size - 1 <= 10
-                valid = 1;
-                for j = 1:size
-                    if board(x + j - 1, y) ~= 0
-                        valid = 0;
-                    end
-                end
-                if valid == 1
-                    for j = 1:size
-                        board(x - 1 + j, y) = shiplist(i);
-                    end
-                    placed = true;
-                end
-            end
-        end
-    end
-end
+board = shipplacer(shiplist, shiplength);
+disp(board);
 
 %this is where the game actually starts. 
 %the user is prompted to enter a number of guesses. 
