@@ -26,7 +26,6 @@ view(2)
 %   that function. that function can also be used for two player versions.
 
 board = shipplacer(shiplist, shiplength);
-disp(board);
 
 %this is where the game actually starts. 
 %the user is prompted to enter a number of guesses. 
