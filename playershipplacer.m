@@ -29,6 +29,7 @@ ypos = input('What column do you want to start the ship? (1-10)?');
 if direction == V && ypos + size >= 10
      disp('You cannot place that ship here. Try again.');
      ypos = input('What column do you want to start the ship? (1-10)?');
+
 end
 ypos = round(ypos);
 
