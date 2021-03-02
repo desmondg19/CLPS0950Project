@@ -22,7 +22,7 @@ function varargout = BattleshipBoard(varargin)
 
 % Edit the above text to modify the response to help BattleshipBoard
 
-% Last Modified by GUIDE v2.5 01-Mar-2021 12:53:32
+% Last Modified by GUIDE v2.5 01-Mar-2021 21:30:36
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -43,7 +43,7 @@ else
 end
 % End initialization code - DO NOT EDIT
 
-
+end
 % --- Executes just before BattleshipBoard is made visible.
 function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
@@ -57,7 +57,7 @@ handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
-
+end
 % UIWAIT makes BattleshipBoard wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
@@ -71,3 +71,40 @@ function varargout = BattleshipBoard_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
+end
+
+% --- Executes on button press in easy_button.
+function easy_button_Callback(hObject, eventdata, handles)
+% hObject    handle to easy_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+disp('Level: easy');
+
+end
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over easy_button.
+function easy_button_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to easy_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+end
+
+
+% --- Executes on button press in medium_button.
+function medium_button_Callback(hObject, eventdata, handles)
+% hObject    handle to medium_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+disp('Level: medium');
+end
+
+% --- Executes on button press in hard_button.
+function hard_button_Callback(hObject, eventdata, handles)
+% hObject    handle to hard_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+disp('Level: hard');
+end
