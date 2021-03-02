@@ -1,5 +1,5 @@
 function [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength)
-%PLAYERBOARD Summary of this function goes here
+%PLAYERBOARD Summary of this function goes here 
 %   Detailed explanation goes here
 playerboard = zeros(10);
 sqr = ones(10, 10);
