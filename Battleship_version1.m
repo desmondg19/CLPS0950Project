@@ -21,7 +21,6 @@ shiplength = [5, 4, 3, 3, 2];
 [X,Y]=meshgrid(0:10);
 mesh(X,Y)
 view(2)
- 
 
 
 %% One player version of the game
@@ -32,7 +31,6 @@ view(2)
 %   that function. that function can also be used for two player versions.
 
 board = shipplacer(shiplist, shiplength);
-playerboard = playershipplacer(xpos, ypos, direction);
 %this is where the game actually starts. 
 %the user is prompted to enter a number of guesses. 
 
@@ -120,69 +118,10 @@ disp('You used up all your turns! Try again next time!')
 %This code allows the player to play the game by typing input coordinates.
 disp('Start by placing your ships on the 10 by 10 grid');
 disp('All ships are placed to the right and down from the input coordinate.');
-sqr = ones(10, 10);
-playergrid = cat(3, sqr, sqr, sqr);
-imagesc(playergrid)
-
-playerboard = zeros(10);
 
 ships = [" Carrier", " Battleship", " Cruiser", " Submarine", " Destroyer"];
 shiplist = [char("C"), char("B"), char("R"), char("S"), char("D")];
 shiplength = [5, 4, 3, 3, 2];
-for i = 1:length(ships)
-    placed = false;
-    while placed == false;
-        disp(strcat('You are placing the', ships(i), '.'));
-        disp(strcat('It is', {' '}, num2str(shiplength(i)), ' units in length.'))
-        
-        [xpos, ypos, direction] = playershipplacer()
-        
-        size = shiplength(i);
-        
-        if lower(direction) == 'h'
-            if ypos + size - 1 <= 10
-                valid = 1;
-                for j = 1:size
-                    if playerboard(xpos, ypos+j-1) ~= 0
-                        valid = 0;
-                        disp('Not valid - overlapping ships');
-                    end
-                end
-                if valid == 1
-                    for j = 1:size
-                        playerboard(xpos, ypos - 1 + j) = shiplist(i);
-                        playergrid(xpos, ypos - 1 + j, :) = [0, 0, 1];
-                        imagesc(playergrid);
-                    end
-                    placed = true;
-                end
-            else
-                disp('Not valid - too close to edge');
-            end
-        elseif lower(direction) == "v"
-            if xpos + size - 1 <= 10
-                valid = 1;
-                for j = 1:size
-                    if playerboard(xpos+j-1, ypos) ~= 0
-                        valid = 0;
-                        disp('Not valid - overlapping ships');
-                    end
-                end
-                if valid == 1
-                    for j = 1:size
-                        playerboard(xpos - 1 + j, ypos) = shiplist(i);
-                        playergrid(xpos - 1 + j, ypos, :) = [0, 0, 1];
-                        imagesc(playergrid);
-                    end
-                    placed = true;
-                end
-            else
-                disp('Not valid - too close to edge');
-            end
-        else
-            disp('Not valid - direction was not "H" or "V"');
-        end
-    end
-end
 
+[playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength);
 board = shipplacer(shiplist, shiplength);
