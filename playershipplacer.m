@@ -33,8 +33,6 @@ if direction == V && ypos + size >= 10
 end
 ypos = round(ypos);
 
-
-
 if xpos < 1 | xpos > 10
     disp('Invalid X, try again');
     xpos = input('What x coordinate do you want to hit (1-10)?');
@@ -44,4 +42,3 @@ if ypos < 1 | ypos > 10
     ypos = input('What y coordinate do you want to hit (1-10)?');
 end
 playerboard(xpos, ypos) = 1
-end
