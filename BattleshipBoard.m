@@ -22,7 +22,7 @@ function varargout = BattleshipBoard(varargin)
 
 % Edit the above text to modify the response to help BattleshipBoard
 
-% Last Modified by GUIDE v2.5 01-Mar-2021 21:24:07
+% Last Modified by GUIDE v2.5 01-Mar-2021 21:30:36
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,7 +54,7 @@ function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for BattleshipBoard
 handles.output = hObject;
-handles.gamestate=zeros(100);
+
 % Update handles structure
 guidata(hObject, handles);
 end
@@ -73,9 +73,9 @@ function varargout = BattleshipBoard_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 end
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% --- Executes on button press in easy_button.
+function easy_button_Callback(hObject, eventdata, handles)
+% hObject    handle to easy_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
@@ -84,26 +84,26 @@ disp('Level: easy');
 end
 
 % --- If Enable == 'on', executes on mouse press in 5 pixel border.
-% --- Otherwise, executes on mouse press in 5 pixel border or over pushbutton1.
-function pushbutton1_ButtonDownFcn(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% --- Otherwise, executes on mouse press in 5 pixel border or over easy_button.
+function easy_button_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to easy_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 end
 
 
-% --- Executes on button press in pushbutton3.
-function pushbutton3_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton3 (see GCBO)
+% --- Executes on button press in medium_button.
+function medium_button_Callback(hObject, eventdata, handles)
+% hObject    handle to medium_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 disp('Level: medium');
 end
 
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
+% --- Executes on button press in hard_button.
+function hard_button_Callback(hObject, eventdata, handles)
+% hObject    handle to hard_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 disp('Level: hard');
