@@ -35,6 +35,7 @@ end
 if cur_val == 0
     disp('computer missed!');
     playergrid(x_guess, y_guess, :) = [1, 0, 0];
+    append(
     subplot(1,2,2)
     imagesc(playergrid);
 else

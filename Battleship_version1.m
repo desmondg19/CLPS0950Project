@@ -73,8 +73,7 @@ shiplength = [5, 4, 3, 3, 2];
 
 global playergrid
 [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength);
-board = shipplacer(shiplist, shiplength);
-%% 
+board = shipplacer(shiplist, shiplength); 
 
 %computer and player take turns guessing spaces. 
 sqr = ones(10, 10);
