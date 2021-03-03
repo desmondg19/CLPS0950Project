@@ -2,8 +2,9 @@
 % %version of the code
 % 1) shipplacer - generated position of ships randomly on board
 % 2) player guess - runs the code when the player wants to guess
-% 3) playershipplacer - allows player to place their ships
-% 3) computer easy guess - easy level computer guessing pattern (totally random)
+% 3) playershipplacer - allows player to place their ships, and shipposn
+%       function is used within this
+% 4) computer easy guess - easy level computer guessing pattern (totally random)
 
 function []= Battleship ();
 
