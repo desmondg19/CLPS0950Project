@@ -8,14 +8,17 @@ valid_guess = false;
 while valid_guess == false
     x_guess = randi(10);
     y_guess = randi(10);
-    if playerboard(x_guess, y_guess) ~=0
+    if playerboard(x_guess, y_guess) ~=1
         valid_guess = true;
         break;
     end
 end
 
+disp(x_guess);
+disp(y_guess);
+
 cur_val = playerboard(x_guess,y_guess);
-playerboard(x_guess,y_guess) = 0;
+playerboard(x_guess,y_guess) = 1;
 type = char(cur_val);
 if type == 'C'
     ship = ' carrier';
@@ -36,10 +39,9 @@ if cur_val == 0
     imagesc(playergrid);
 else
     is_sink = true;
-    board(x_guess, y_guess) = 0;
     for i = 1:10
         for j = 1:10
-            if board(i,j) == cur_val
+            if playerboard(i,j) == cur_val
                 disp(strcat('computer hit the', ' ', ship, '!'));
                 is_sink = false;
                 playergrid(x_guess, y_guess, :) = [0, 1, 0];
