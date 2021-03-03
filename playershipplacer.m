@@ -11,7 +11,7 @@ for i = 1:length(ships)
         disp(strcat('You are placing the', ships(i), '.'));
         disp(strcat('It is', {' '}, num2str(shiplength(i)), ' units in length.'))
         
-        [xpos, ypos, direction] = shipposnfunction()
+        [xpos, ypos, direction] = shipposnfunction();
         
         size = shiplength(i);
         
