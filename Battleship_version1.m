@@ -1,8 +1,9 @@
-% things remaining in this L1 functionality level
-% 1) telling them which ships they were able to hit or sink - DONE
-% 2) showing the actual image to the player of a grid
-% 3) the grid should be different colors depending on if it was a
-% hit/miss/sink - DONE
+% %functions that are in this folder that are actually being used in this
+% %version of the code
+% 1) shipplacer - generated position of ships randomly on board
+% 2) player guess - runs the code when the player wants to guess
+% 3) playershipplacer - allows player to place their ships
+% 3) computer easy guess - easy level computer guessing pattern (totally random)
 
 function []= Battleship ();
 
@@ -21,32 +22,47 @@ shiplength = [5, 4, 3, 3, 2];
 [X,Y]=meshgrid(0:10);
 mesh(X,Y)
 view(2)
+%% ONE PLAYER - player guesses randomly generated board by computer
 
-
-%% One player version of the game
-% the code within this next for loop allows the computer to randomly
-% generate the positions of the ship on the game board matrix, named board.
-% turned all the code in the previous for loop into a function
-%   called shipplacer. we should be able to replace this wiht a call to
-%   that function. that function can also be used for two player versions.
+%game set up - creates a board, makes a player choose valid number of
+%rounds for game play
 
 board = shipplacer(shiplist, shiplength);
-%this is where the game actually starts. 
-%the user is prompted to enter a number of guesses. 
+valid_rounds = false; 
+while valid_rounds == false;
+    totalrounds = input('How many guesses do you want to have? (17+)');
+    if totalrounds > 17
+        valid_rounds = true;
+        break;
+    else
+        disp('Invalid number of guesses');
+    end  
+end
 
-totalrounds = input('How many guesses do you want to have? (Must be 17 or more)');
+%generates an image of the player guesses + sets up guesser function
+sqr = ones(10, 10);
+playerguesses = cat(3, sqr, sqr, sqr);
+sink_count = 0;
+winner = false;
+current_rounds = 1;
 
-% if totalrounds < 17
-%     disp('invalid number of guesses, please try again')
-%     totalrounds = input('How many guesses do you want to have? (Must be 17 or more)');
-% end
-
-[board, playerguesses] = playerguess(board, totalrounds);
+% while player is playing, allows guesses to be checked against the
+% computers randomly generated board. 
+while current_rounds <= totalrounds
+    [board, playerguesses, winner, sink_count] = playerguess(board, winner, sink_count);
+    subplot(1,2,2)
+    x = 1;
+    y = current_rounds;
+    bar(x,y,'r')
+    title('Turns Used')
+    current_rounds = current_rounds + 1;
+end
 
 disp('You used up all your turns! Try again next time!')
-%% The code in this section is for level 2 functionality.
+%% Two player game play - computer in easy level guessing
 
-%This code allows the player to play the game by typing input coordinates.
+%This code allows the player to set up the game by typing input coordinates.
+%Then, it generates the computer's board. 
 disp('Start by placing your ships on the 10 by 10 grid');
 disp('All ships are placed to the right and down from the input coordinate.');
 
@@ -56,3 +72,19 @@ shiplength = [5, 4, 3, 3, 2];
 
 [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength);
 board = shipplacer(shiplist, shiplength);
+
+%computer and player take turns guessing spaces. 
+sqr = ones(10, 10);
+playerguesses = cat(3, sqr, sqr, sqr);
+sink_count = 0;
+winner = false;
+comp_sink_count = 0;
+
+while winner == false
+   [board, playerguesses, winner, sink_count] = playerguess(board, winner, sink_count);
+   if winner == true
+       break;
+   end
+   disp('Time for the computer to guess');
+   [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(playerboard, winner, comp_sink_count);
+end
