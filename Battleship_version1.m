@@ -91,3 +91,37 @@ while winner == false
    disp('Time for the computer to guess');
    [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(playerboard, winner, comp_sink_count);
 end
+%% two player - hard
+disp('Start by placing your ships on the 10 by 10 grid');
+disp('All ships are placed to the right and down from the input coordinate.');
+
+ships = [" Carrier", " Battleship", " Cruiser", " Submarine", " Destroyer"];
+shiplist = [char("C"), char("B"), char("R"), char("S"), char("D")];
+shiplength = [5, 4, 3, 3, 2];
+
+global playergrid
+[playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength);
+board = shipplacer(shiplist, shiplength); 
+
+%computer and player take turns guessing spaces. 
+sqr = ones(10, 10);
+global playerguesses
+global nextsteps
+global count_nextsteps
+
+playerguesses = cat(3, sqr, sqr, sqr);
+sink_count = 0;
+winner = false;
+comp_sink_count = 0;
+nextsteps = [];
+count_nextsteps = 0;
+
+while winner == false
+   [board, playerguesses, winner, sink_count] = playerguess(board, winner, sink_count);
+   if winner == true
+       break;
+   end
+   disp('Time for the computer to guess');
+   [playerboard, winner, comp_sink_count] = computesteps(playerboard, winner, comp_sink_count);
+end
+
