@@ -74,6 +74,10 @@ set(handles.slideryaxis, 'SliderStep', [1/(numSteps-1) , 1/(numSteps-1) ]);
 % Update handles structure
 guidata(hObject, handles);
 
+%computer places ships on board
+%%function [board] = shipplacer(shiplist,shiplength)
+
+
 end
 % UIWAIT makes BattleshipBoard wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -116,6 +120,13 @@ function medium_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 disp('Level: medium');
+
+%User places ships on board
+%function [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength)
+
+%Computer to guess where user's ships are
+%function [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(playerboard, winner, comp_sink_count)
+
 end
 
 % --- Executes on button press in hard_button.
@@ -124,6 +135,11 @@ function hard_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 disp('Level: hard');
+
+%User places ships on board
+%function [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength)
+
+
 end
 
 
