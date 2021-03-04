@@ -22,7 +22,7 @@ function varargout = BattleshipBoard(varargin)
 
 % Edit the above text to modify the response to help BattleshipBoard
 
-% Last Modified by GUIDE v2.5 01-Mar-2021 21:30:36
+% Last Modified by GUIDE v2.5 02-Mar-2021 17:39:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,9 +54,26 @@ function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for BattleshipBoard
 handles.output = hObject;
+handles.grid=zeros(10, 10, 3);
+handles.coordx=1;
+handles.coordy=1;
+
+
+numSteps=10; %go ten steps, value 1, min 1
+
+set(handles.slider2xaxis, 'Min', 1); 
+set(handles.slider2xaxis, 'Max', numSteps); 
+set(handles.slider2xaxis, 'Value', 1); 
+set(handles.slider2xaxis, 'SliderStep', [1/(numSteps-1) , 1/(numSteps-1) ]);
+
+set(handles.slideryaxis, 'Min', -10); 
+set(handles.slideryaxis, 'Max', -1); 
+set(handles.slideryaxis, 'Value', -1); 
+set(handles.slideryaxis, 'SliderStep', [1/(numSteps-1) , 1/(numSteps-1) ]);
 
 % Update handles structure
 guidata(hObject, handles);
+
 end
 % UIWAIT makes BattleshipBoard wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -107,4 +124,87 @@ function hard_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 disp('Level: hard');
+end
+
+
+% --- Executes on button press in Fire.
+function Fire_Callback(hObject, eventdata, handles)
+% hObject    handle to Fire (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.slider2xaxis, 'Value', 1);
+set(handles.slideryaxis, 'Value', -1);
+
+handles=slider2xaxis_Callback(hObject, eventdata, handles);
+
+handles=slideryaxis_Callback(hObject, eventdata, handles);
+guidata(hObject, handles); %updates globally, because reset back to (1,1)
+%updatematrix(hObject, eventdata, handles);
+%x = input('Enter coordinate:\n');
+%handles.grid(x) = 1;
+%imshow(handles.grid,'Parent', handles.axes1);
+%guidata(hObject, handles);
+end
+
+function updatematrix(hObject, eventdata, handles)
+handles.grid=rand(10,10);
+guidata(hObject, handles);
+end
+
+%create matrix to highlight x and y axis coordinates
+function showtarget(hObject, eventdata, handles)
+grid=zeros(10);
+grid(handles.coordy, handles.coordx)=1;
+imshow(grid ,'Parent', handles.axes1);
+end
+
+% --- Executes on slider movement.
+function handles=slideryaxis_Callback(hObject, eventdata, handles)
+% hObject    handle to slideryaxis (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+yaxisvalue=get(hObject,'Value')
+handles.coordy=abs(yaxisvalue);
+guidata(hObject, handles);
+showtarget(hObject, eventdata, handles)
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+end
+
+% --- Executes during object creation, after setting all properties.
+function slideryaxis_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slideryaxis (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+end
+
+
+% --- Executes on slider movement.
+function handles=slider2xaxis_Callback(hObject, eventdata, handles)
+% hObject    handle to slider2xaxis (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+xaxisvalue=get(hObject,'Value')
+handles.coordx=xaxisvalue;
+guidata(hObject, handles);
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+showtarget(hObject, eventdata, handles)
+end
+
+% --- Executes during object creation, after setting all properties.
+function slider2xaxis_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider2xaxis (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
 end
