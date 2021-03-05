@@ -212,7 +212,7 @@ guidata(hObject, handles); %updates globally, because reset back to (1,1)
 
 %Function for player inputing target
 x_shot = handles.slider2xaxis;
-y_shot = ihandles.slideryaxis;
+y_shot = handles.slideryaxis;
 
 if x_shot < 1 | x_shot > 10
     disp('Invalid X, try again');
