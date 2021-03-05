@@ -1,8 +1,9 @@
 function [board] = shipplacer(shiplist,shiplength)
-%SHIPPLACER This function places the ships on the matrix.
+%SHIPPLACER This function randomly places the ships on the matrix.
 %   The inputs to this function are a list of ships (characters) and the
 %   length of those ships. The output of the function is a matrix called
 %   board. 
+
 board=zeros(10);
 for i = 1:length(shiplist)
     placed = false;

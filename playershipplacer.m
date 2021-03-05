@@ -1,6 +1,15 @@
 function [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength)
-%PLAYERBOARD Summary of this function goes here 
-%   Detailed explanation goes here
+%PLAYERSHIPPLACER This function prompts the user to place the 5 ships of
+%interest on the board. It then allows them to visualize where they've
+%placed the ships. 
+
+%   This function takes in a list of ship full names, shiplist (which is
+%   the ascii for a 1 letter abbreviation of the ship names to be used in a
+%   matrix later), and a list with the lengths of each ships. The function
+%   will output playerboard, which is a matrix with the information about
+%   which ships were placed where. It will also output playergrid, which is
+%   an image of where all the ships have been placed. 
+
 playerboard = zeros(10);
 sqr = ones(10, 10);
 playergrid = cat(3, sqr, sqr, sqr);

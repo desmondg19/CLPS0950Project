@@ -25,9 +25,8 @@ mesh(X,Y)
 view(2)
 %% ONE PLAYER - player guesses randomly generated board by computer
 
-%game set up - creates a board, makes a player choose valid number of
-%rounds for game play
-
+%calls on shipplacer to generate a board, and asks the player to enter the
+%number of turns that they want to have at the game. 
 board = shipplacer(shiplist, shiplength);
 valid_rounds = false; 
 while valid_rounds == false;
@@ -59,8 +58,8 @@ while current_rounds <= totalrounds
     current_rounds = current_rounds + 1;
 end
 
-disp('You used up all your turns! Try again next time!')
-%% Two player game play - computer in easy level guessing
+disp('You used up all your turns! Try again next time!');
+%% Two player - computer in easyguess mode
 
 %This code allows the player to set up the game by typing input coordinates.
 %Then, it generates the computer's board. 
@@ -91,7 +90,10 @@ while winner == false
    disp('Time for the computer to guess');
    [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(playerboard, winner, comp_sink_count);
 end
-%% two player - hard
+%% Two player - computer in hardguess mode
+
+%This code allows the player to set up the game by typing input coordinates.
+%Then, it generates the computer's board. 
 disp('Start by placing your ships on the 10 by 10 grid');
 disp('All ships are placed to the right and down from the input coordinate.');
 
@@ -103,11 +105,12 @@ global playergrid
 [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength);
 board = shipplacer(shiplist, shiplength); 
 
-%computer and player take turns guessing spaces. 
+%computer and player take turns guessing spaces.
 sqr = ones(10, 10);
 global playerguesses
 global nextsteps
 global count_nextsteps
+global playerboard
 
 playerguesses = cat(3, sqr, sqr, sqr);
 sink_count = 0;
