@@ -36,7 +36,7 @@ end
 if cur_val == 0
     handles.grid(x_shot, y_shot, :) = [255, 0, 0];
     imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
-  
+     hold on
 else %only if there is a hit or sink
     is_sink = true; %where is
     handles.board(x_shot, y_shot) = 0;
@@ -46,7 +46,7 @@ else %only if there is a hit or sink
                 is_sink = false;
                 handles.grid(x_shot, y_shot, :) = [255, 255, 0];
                 imshow(handles.grid, 'Parent', handles.axes1);
-                alpha 'clear' 
+                hold on 
                 break;
             end
         end

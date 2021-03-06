@@ -80,6 +80,12 @@ set(handles.slideryaxis, 'Value', -1);
 set(handles.slideryaxis, 'SliderStep', [1/(numSteps-1) , 1/(numSteps-1) ]);
 
 imshow(handles.grid,'Parent', handles.axes1);
+% global y_target_count 
+% y_target_count= 0;
+% global x_target_count 
+% x_target_count = 0;
+global fire_button
+fire_button = true;
 % Update handles structure
 guidata(hObject, handles);
 
@@ -180,6 +186,8 @@ end
 
 % --- Executes on button press in Fire.
 function Fire_Callback(hObject, eventdata, handles)
+global fire_button
+fire_button = false;
 % hObject    handle to Fire (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -192,7 +200,13 @@ handles=GUI_playerguess(handles); %play the game for one round, reuse for every 
 % handles=slider2xaxis_Callback(hObject, eventdata, handles); 
 % handles=slideryaxis_Callback(hObject, eventdata, handles);
 guidata(hObject, handles); %updates globally, because reset back to (1,1)
-
+% global y_target_function
+% global x_target_function 
+% y_target_function = 0
+% x_target_function = 0
+if fire_button == false;
+    showtarget(hObject, eventdata, handles)
+end
 end
 
 
@@ -203,18 +217,30 @@ end
 %create matrix to highlight x and y axis coordinates
 
 function showtarget(hObject, eventdata, handles)
+
  grid=uint8(zeros(10,10,3));
  grid(handles.coordy, handles.coordx, :)=255;
  
-    for i = 1:10
-    for j = 1:10 
-        if handles.grid(i, j, :) == [255,0, 0] 
-            set(grid(i,j),'AlphaData', 0) 
-             end
-    end
-end
+%     for i = 1:10
+%     for j = 1:10 
+%         if handles.grid(i, j, :) == [255,0, 0] 
+%             set(grid(i,j),'AlphaData', 0) 
+%              end
+%     end
+% end
+
+   alpha = zeros(10) + 0.3;
    h=imshow(grid ,'Parent', handles.axes1);
-    set(h,'AlphaData', 0.5);    
+%    global y_target_count
+%    global x_target_count
+%    if  y_target_count == 0  x_target_count == 0
+   set(h,'AlphaData', .1); 
+%    y_target_count = 1
+%    x_target_count = 1
+%    end
+   
+
+
 end
 
 % --- Executes on slider movement.
@@ -226,6 +252,8 @@ yaxisvalue=get(hObject,'Value')
 handles.coordy=abs(yaxisvalue);
 guidata(hObject, handles);
 showtarget(hObject, eventdata, handles)
+    
+
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 end
@@ -253,7 +281,10 @@ handles.coordx=xaxisvalue;
 guidata(hObject, handles);
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
 showtarget(hObject, eventdata, handles)
+ 
+
 end
 
 % --- Executes during object creation, after setting all properties.
