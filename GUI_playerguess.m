@@ -13,7 +13,7 @@ function [handles] = GUI_playerguess(handles)
 %FIND IS_SINK VARIABLE
 
 x_shot = abs(get(handles.slideryaxis, 'Value'));
-y_shot = get(handles.slider2xaxis, 'Value');
+y_shot = abs(get(handles.slider2xaxis, 'Value'));
 %%global playergrid=get(handles.grid); %trying to initialize variable to store what the current board looks like
 
 
@@ -35,7 +35,8 @@ end
 %if there is a miss, tells the computer they have missed. 
 if cur_val == 0
     handles.grid(x_shot, y_shot, :) = [255, 0, 0];
-    imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix   
+    imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
+  
 else %only if there is a hit or sink
     is_sink = true; %where is
     handles.board(x_shot, y_shot) = 0;
@@ -45,7 +46,7 @@ else %only if there is a hit or sink
                 is_sink = false;
                 handles.grid(x_shot, y_shot, :) = [255, 255, 0];
                 imshow(handles.grid, 'Parent', handles.axes1);
-             
+                alpha 'clear' 
                 break;
             end
         end

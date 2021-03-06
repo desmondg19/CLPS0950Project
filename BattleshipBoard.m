@@ -187,10 +187,10 @@ function Fire_Callback(hObject, eventdata, handles)
 handles=GUI_playerguess(handles); %play the game for one round, reuse for every level of game (need to verify rounds)
 
 %Resetting sliders to default position
-set(handles.slider2xaxis, 'Value', 1);
-set(handles.slideryaxis, 'Value', -1);
-handles=slider2xaxis_Callback(hObject, eventdata, handles); 
-handles=slideryaxis_Callback(hObject, eventdata, handles);
+% set(handles.slider2xaxis, 'Value', 1);
+% set(handles.slideryaxis, 'Value', -1);
+% handles=slider2xaxis_Callback(hObject, eventdata, handles); 
+% handles=slideryaxis_Callback(hObject, eventdata, handles);
 guidata(hObject, handles); %updates globally, because reset back to (1,1)
 
 end
@@ -201,12 +201,20 @@ end
 %handles.grid=
 
 %create matrix to highlight x and y axis coordinates
+
 function showtarget(hObject, eventdata, handles)
-grid=uint8(zeros(10,10,3));
-grid(handles.coordy, handles.coordx, :)=255;
-alpha=zeros(10)+0.3;
-h=imshow(grid ,'Parent', handles.axes1);
-set(h,'AlphaData', 0.5);
+ grid=uint8(zeros(10,10,3));
+ grid(handles.coordy, handles.coordx, :)=255;
+ 
+    for i = 1:10
+    for j = 1:10 
+        if handles.grid(i, j, :) == [255,0, 0] 
+            set(grid(i,j),'AlphaData', 0) 
+             end
+    end
+end
+   h=imshow(grid ,'Parent', handles.axes1);
+    set(h,'AlphaData', 0.5);    
 end
 
 % --- Executes on slider movement.
