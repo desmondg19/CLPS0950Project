@@ -12,13 +12,12 @@ function [handles] = GUI_playerguess(handles)
 
 %FIND IS_SINK VARIABLE
 
-x_shot = get(handles.slider2xaxis, 'Value');
-y_shot = abs(get(handles.slideryaxis, 'Value'));
+x_shot = abs(get(handles.slideryaxis, 'Value'));
+y_shot = get(handles.slider2xaxis, 'Value');
+%%global playergrid=get(handles.grid); %trying to initialize variable to store what the current board looks like
 
-handles.grid(x_shot, y_shot, :) = [255, 0, 0];
-imshow(handles.grid, 'Parent', handles.axes1);
 
-determines the type of ship at that location. %can look into switch case
+%determines the type of ship at that location. %can look into switch case
 cur_val = handles.board(x_shot,y_shot);
 type = char(cur_val);
 if type == 'C'
@@ -35,18 +34,18 @@ end
 
 %if there is a miss, tells the computer they have missed. 
 if cur_val == 0
-    handles.grid(x_shot, y_shot, :) = [255, 0, 0]; %x_shot and y_shot are position in matrix
+    handles.grid(x_shot, y_shot, :) = [255, 0, 0];
+    imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix   
 else %only if there is a hit or sink
     is_sink = true; %where is
-    board(x_shot, y_shot) = 0;
+    handles.board(x_shot, y_shot) = 0;
     for i = 1:10
         for j = 1:10
-            if board(i,j) == cur_val
-                disp(strcat('you hit the', ' ', ship, '!'));
+            if handles.board(i,j) == cur_val
                 is_sink = false;
-                playerguesses(x_shot, y_shot, :) = [0, 1, 0];
-                subplot(1,2,1)
-                imagesc(playerguesses);
+                handles.grid(x_shot, y_shot, :) = [255, 255, 0];
+                imshow(handles.grid, 'Parent', handles.axes1);
+             
                 break;
             end
         end
@@ -55,16 +54,16 @@ else %only if there is a hit or sink
         end
     end
     if is_sink %only if there is a sink -> will update the sink count.
-        disp(strcat('you sunk the', ' ', ship, '!'));
-        sink_count = sink_count + 1;
-        playerguesses(x_shot, y_shot, :) = [0, 1, 0];
-        subplot(1,2,1)
-        imagesc(playerguesses);
+        handles.sink_count = handles.sink_count + 1;
+        handles.grid(x_shot, y_shot, :) = [0, 255, 0];
+        imshow(handles.grid, 'Parent', handles.axes1);
+        
     end
 end
-if sink_count == 5 %if the player has sunk 5 ships, they win.
-    
-    winner = true;
+
+if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
+    handles.winner = true;
     return;
 end
+%current_board=current_board+handles.grid;
 end

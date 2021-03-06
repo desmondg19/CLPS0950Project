@@ -61,9 +61,11 @@ handles.coordy=1;
 %initializing the ships and the ship lengths
 handles.shiplist = [char("C"), char("B"), char("R"), char("S"), char("D")];
 handles.shiplength = [5, 4, 3, 3, 2];
+handles.ships= [" Carrier", " Battleship", " Cruiser", " Submarine", " Destroyer"];
 
 %initialize board
 handles.board=shipplacer(handles.shiplist, handles.shiplength); %info never shown to user- hidden
+
 
 numSteps=10; %go ten steps, value 1, min 1
 
@@ -131,23 +133,23 @@ function medium_button_Callback(hObject, eventdata, handles)
 % hObject    handle to medium_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp('Level: medium');
 
-[playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength);
-board = shipplacer(shiplist, shiplength); 
 
-%computer and player take turns guessing spaces. 
-sink_count = 0;
-winner = false;
-comp_sink_count = 0;
+handles.board = shipplacer(handles.shiplist, handles.shiplength);
+handles.playerboard = playershipplacer(handles.ships, handles.shiplist, handles.shiplength);
 
-while winner == false
-   [board, winner, sink_count] = playerguess(board, winner, sink_count);
-   if winner == true
+handles.sink_count = 0;
+handles.winner = false;
+handles.current_rounds = 1;
+guidata(hObject, handles);
+handles.comp_sink_count = 0;
+
+while handles.winner == false
+   %Fire_Callback(hObject, eventdata, handles) %trying to call the function Fire_Callback 
+   if handles.winner == true
        break;
    end
-   disp('Time for the computer to guess');
-   [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(playerboard, winner, comp_sink_count);
+%   [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(playerboard, winner, comp_sink_count);
 
 end
 
@@ -159,7 +161,15 @@ function hard_button_Callback(hObject, eventdata, handles)
 % hObject    handle to hard_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp('Level: hard');
+
+handles.board = shipplacer(handles.shiplist, handles.shiplength);
+handles.playerboard = playershipplacer(handles.ships, handles.shiplist, handles.shiplength);
+
+handles.sink_count = 0;
+handles.winner = false;
+handles.current_rounds = 1;
+guidata(hObject, handles);
+handles.comp_sink_count = 0;
 
 %User places ships on board
 %function [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength)
