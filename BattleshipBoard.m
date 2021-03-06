@@ -54,13 +54,16 @@ function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for BattleshipBoard
 handles.output = hObject;
-handles.grid=zeros(10, 10, 3);
+handles.grid=uint8(zeros(10, 10, 3)+128); %setting everything to gray, info shown to user all the time
 handles.coordx=1;
 handles.coordy=1;
 
 %initializing the ships and the ship lengths
 handles.shiplist = [char("C"), char("B"), char("R"), char("S"), char("D")];
 handles.shiplength = [5, 4, 3, 3, 2];
+
+%initialize board
+handles.board=shipplacer(handles.shiplist, handles.shiplength); %info never shown to user- hidden
 
 numSteps=10; %go ten steps, value 1, min 1
 
@@ -74,13 +77,9 @@ set(handles.slideryaxis, 'Max', -1);
 set(handles.slideryaxis, 'Value', -1); 
 set(handles.slideryaxis, 'SliderStep', [1/(numSteps-1) , 1/(numSteps-1) ]);
 
+imshow(handles.grid,'Parent', handles.axes1);
 % Update handles structure
 guidata(hObject, handles);
-
-%computer places ships on board
-function [board] = shipplacer(shiplist,shiplength)
-
-end
 
 
 
@@ -106,38 +105,15 @@ function easy_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-board = handles.shipplacer(shiplist, shiplength);
-valid_rounds = false; 
-while valid_rounds == false;
-    totalrounds = input('How many guesses do you want to have? (17+)');
-    if totalrounds > 17
-        valid_rounds = true;
-        break;
-    else
-        disp('Invalid number of guesses');
-    end  
-end
+%just need to initialize not play the game, 
+handles.board = shipplacer(handles.shiplist, handles.shiplength);
 
-sink_count = 0;
-winner = false;
-current_rounds = 1;
+handles.totalrounds = 30;
 
-% while player is playing, allows guesses to be checked against the
-% computers randomly generated board. 
-while current_rounds <= totalrounds
-    [board, winner, sink_count] = playerguess(board, winner, sink_count);
-    subplot(1,2,2)
-    x = 1;
-    y = current_rounds;
-    bar(x,y,'r')
-    title('Turns Used')
-    current_rounds = current_rounds + 1;
-end
-
-disp('You used up all your turns! Try again next time!')
+handles.sink_count = 0;
+handles.winner = false;
+handles.current_rounds = 1;
 guidata(hObject, handles);
-disp('Level: easy');
-
 end
 
 % --- If Enable == 'on', executes on mouse press in 5 pixel border.
@@ -197,98 +173,30 @@ function Fire_Callback(hObject, eventdata, handles)
 % hObject    handle to Fire (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+handles=GUI_playerguess(handles); %play the game for one round, reuse for every level of game (need to verify rounds)
+
+%Resetting sliders to default position
 set(handles.slider2xaxis, 'Value', 1);
 set(handles.slideryaxis, 'Value', -1);
-
-handles=slider2xaxis_Callback(hObject, eventdata, handles);
-
+handles=slider2xaxis_Callback(hObject, eventdata, handles); 
 handles=slideryaxis_Callback(hObject, eventdata, handles);
 guidata(hObject, handles); %updates globally, because reset back to (1,1)
-%updatematrix(hObject, eventdata, handles);
-%x = input('Enter coordinate:\n');
-%handles.grid(x) = 1;
-%imshow(handles.grid,'Parent', handles.axes1);
-%guidata(hObject, handles);
-
-%Function for player inputing target
-x_shot = handles.slider2xaxis;
-y_shot = handles.slideryaxis;
-
-if x_shot < 1 | x_shot > 10
-    disp('Invalid X, try again');
-    x_shot = input('What x coordinate do you want to hit (1-10)?');
-end
-if y_shot < 1 | y_shot > 10
-    disp('Invalid Y, try again');
-    y_shot = input('What y coordinate do you want to hit (1-10)?');
-end
-
-cur_val = board(x_shot,y_shot);
-type = char(cur_val);
-if type == 'C'
-    ship = ' carrier';
-elseif type == 'D'
-    ship = ' destroyer';
-elseif type == 'S'
-    ship = ' submarine';
-elseif type == 'R'
-    ship = ' cruiser';
-elseif type == 'B'
-    ship = ' battleship';
-end
-
-if cur_val == 0
-    disp('miss!');
-    subplot(1,2,1)
-    playerguesses(x_shot, y_shot, :) = [1, 0, 0]; %changes square to red
-    imagesc(playerguesses);
-else
-    is_sink = true;
-    board(x_shot, y_shot) = 0;
-    for i = 1:10
-        for j = 1:10
-            if board(i,j) == cur_val
-                disp(strcat('you hit the', ' ', ship, '!'));
-                is_sink = false;
-                playerguesses(x_shot, y_shot, :) = [1, 1, 0];
-                subplot(1,2,1)
-                imagesc(playerguesses);
-                break;
-            end
-        end
-        if is_sink == false
-            break;
-        end
-    end
-    if is_sink
-        disp(strcat('you sunk the', ' ', ship, '!')); %decide to keep in or remove?
-        sink_count = sink_count + 1;
-        playerguesses(x_shot, y_shot, :) = [0, 1, 0]; %change to green
-        subplot(1,2,1)
-        imagesc(playerguesses);
-    end
-end
-if sink_count == 5
-    disp('You Win!!');
-    winner = true;
-    return;
-end
-
-
-
 
 end
 
 
 
-function savematrix(hObject, eventdata, handles))
-handles.grid=
+%function savematrix(hObject, eventdata, handles))
+%handles.grid=
 
 %create matrix to highlight x and y axis coordinates
 function showtarget(hObject, eventdata, handles)
-grid=zeros(10);
-grid(handles.coordy, handles.coordx)=1;
-imshow(grid ,'Parent', handles.axes1);
+grid=uint8(zeros(10,10,3));
+grid(handles.coordy, handles.coordx, :)=255;
+alpha=zeros(10)+0.3;
+h=imshow(grid ,'Parent', handles.axes1);
+set(h,'AlphaData', 0.5);
 end
 
 % --- Executes on slider movement.
