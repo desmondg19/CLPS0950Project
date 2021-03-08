@@ -34,17 +34,32 @@ end
 
 %if there is a miss, tells the computer they have missed. 
 if cur_val == 0
+    if handles.tracker(x_shot, y_shot) ~= 1
     handles.grid(x_shot, y_shot, :) = [255, 0, 0];
     imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
      hold on
+     handles.tracker(x_shot,y_shot) = 1; 
+    end
 else %only if there is a hit or sink
     is_sink = true; %where is
-    handles.board(x_shot, y_shot) = 0;
+    if type == 'C'
+    handles.board(x_shot, y_shot) = 2;
+    elseif type == 'D'
+    handles.board(x_shot, y_shot) = 3;
+    elseif type == 'S'
+    handles.board(x_shot, y_shot) = 4;
+    elseif type == 'R'
+    handles.board(x_shot, y_shot) = 5;
+    elseif type == 'B'
+    handles.board(x_shot, y_shot) = 6;
+   end 
     for i = 1:10
         for j = 1:10
             if handles.board(i,j) == cur_val
                 is_sink = false;
+              
                 handles.grid(x_shot, y_shot, :) = [255, 255, 0];
+               
                 imshow(handles.grid, 'Parent', handles.axes1);
                 hold on 
                 break;
@@ -56,15 +71,25 @@ else %only if there is a hit or sink
     end
     if is_sink %only if there is a sink -> will update the sink count.
         handles.sink_count = handles.sink_count + 1;
+        
         handles.grid(x_shot, y_shot, :) = [0, 255, 0];
+          for i = 1:10
+        for j = 1:10
+            if handles.board(x_shot, y_shot) == handles.board(i,j)
+                handles.grid(i, j, :) = [0, 255, 0];
+            end
+        end
+          end
         imshow(handles.grid, 'Parent', handles.axes1);
         
     end
 end
 
 if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
+    disp('you won!'); 
     handles.winner = true;
     return;
+    
 end
 %current_board=current_board+handles.grid;
 end
