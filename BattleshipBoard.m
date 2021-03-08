@@ -208,7 +208,7 @@ guidata(hObject, handles); %updates globally, because reset back to (1,1)
 if fire_button == false;
     showtarget(hObject, eventdata, handles)
 end
-fire_button == true;
+fire_button = true;
 
 end
 
@@ -221,50 +221,25 @@ end
 
 function showtarget(hObject, eventdata, handles)
 
- grid=uint8(zeros(10,10,3) +.3);
- grid(handles.coordy, handles.coordx, :)=255;
+grid=uint8(zeros(10,10,3) + .03 );
+grid(handles.coordy, handles.coordx, :)=255; 
  
-%     for i = 1:10
-%     for j = 1:10 
-%         if handles.grid(i, j, :) == [255,0, 0] 
-%             set(grid(i,j),'AlphaData', 0) 
-%              end
-%     end
-% end
-
-    %%alpha = zeros(10)+.3;
-  
+cla(handles.axes1)
+ h=imshow(handles.grid ,'Parent', handles.axes1);
+ h=imshow(grid ,'Parent', handles.axes1);
  
-   h=imshow(grid ,'Parent', handles.axes1);
-%    global y_target_count
-%    global x_target_count
-%    if  y_target_count == 0  x_target_count == 0
-   
-
-    set(h,'AlphaData', .05);
-  
-    
-    
-   
-   
- 
-%    y_target_count = 1
-%    x_target_count = 1
-%    end
-   
-
+ set(h,'AlphaData', .05);
 
 end
 
 
 
 
-
+ 
 
 % --- Executes on slider movement.
 function handles=slideryaxis_Callback(hObject, eventdata, handles)
-
-
+global y_movement
 % hObject    handle to slideryaxis (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -275,8 +250,9 @@ handles.coordy=abs(yaxisvalue);
 
 showtarget(hObject, eventdata, handles)
 
+
 guidata(hObject, handles);
- 
+
 
 
 % Hints: get(hObject,'Value') returns position of slider
