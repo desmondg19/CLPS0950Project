@@ -71,7 +71,7 @@ else %only if there is a hit or sink
             break;
         end
     end
-    if is_sink %only if there is a sink -> will update the sink count.
+        if is_sink %only if there is a sink -> will update the sink count.
         handles.sink_count = handles.sink_count + 1;
         
         handles.grid(x_shot, y_shot, :) = [0, 255, 0];
@@ -91,6 +91,7 @@ else %only if there is a hit or sink
 end
 
 if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
+   handles.grid(x_shot, y_shot, :) = [163, 94, 196]; 
     for i = 1:10
         for j = 1:10 
             handles.grid(i,j, :) = [163, 94, 196];
