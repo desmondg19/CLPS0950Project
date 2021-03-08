@@ -63,7 +63,7 @@ else %only if there is a hit or sink
                  handles.tracker(x_shot, y_shot) = 1; 
                 end
                 imshow(handles.grid, 'Parent', handles.axes1);
-                hold on 
+                %hold on 
                 break;
             end
         end
@@ -87,10 +87,8 @@ else %only if there is a hit or sink
           end
         imshow(handles.grid, 'Parent', handles.axes1);
         
-    end
-end
-
-if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
+        end
+    if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
    handles.grid(x_shot, y_shot, :) = [163, 94, 196]; 
     for i = 1:10
         for j = 1:10 
@@ -101,5 +99,8 @@ if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
     return;
     
 end
+end
+
+
 %current_board=current_board+handles.grid;
 end
