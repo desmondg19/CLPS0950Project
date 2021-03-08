@@ -86,8 +86,7 @@ imshow(handles.grid,'Parent', handles.axes1);
 % x_target_count = 0;
 global fire_button
 fire_button = true;
-global yi 
-yi = 1;
+
 % Update handles structure
 guidata(hObject, handles);
 
