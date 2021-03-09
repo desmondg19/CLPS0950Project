@@ -17,7 +17,7 @@ y_shot = abs(get(handles.slider2xaxis, 'Value'));
 %%global playergrid=get(handles.grid); %trying to initialize variable to store what the current board looks like
 
 
-%determines the type of ship at that location. %can look into switch case
+%determines the type of ship at that location. 
 cur_val = handles.board(x_shot,y_shot);
 type = char(cur_val);
 if type == 'C'
@@ -34,25 +34,22 @@ end
 
 %if there is a miss, tells the computer they have missed. 
 if cur_val == 0
-    if handles.tracker(x_shot, y_shot) ~= 1
-    handles.grid(x_shot, y_shot, :) = [255, 0, 0];
-
-    %imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
-     %hold on
-
+    if handles.tracker(x_shot, y_shot) ~= 1 % makes sure this is the first shot at this location
+    handles.grid(x_shot, y_shot, :) = [255, 0, 0]; % changes square to red
     imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
      hold on
-     handles.tracker(x_shot,y_shot) = 1; 
-     set(handles.text2, 'String', 'Miss!');
+     handles.tracker(x_shot,y_shot) = 1; % stores that this coordinate has been hit
+     set(handles.text2, 'String', 'Miss!'); % informs the player they missed
     end
   
     
-
 else %only if there is a hit or sink
     
     is_sink = true; %where is
+    % changes the value of each ship to assist in changing the color once
+    % they have been sunk 
     if type == 'C'
-    handles.board(x_shot, y_shot) = 2;
+    handles.board(x_shot, y_shot) = 2; 
     elseif type == 'D'
     handles.board(x_shot, y_shot) = 3;
     elseif type == 'S'
@@ -66,17 +63,13 @@ else %only if there is a hit or sink
         for j = 1:10
             if handles.board(i,j) == cur_val
                 is_sink = false;
-                if handles.tracker(x_shot, y_shot) ~=1
-                handles.grid(x_shot, y_shot, :) = [255, 255, 0];
-
-                %imshow(handles.grid, 'Parent', handles.axes1); %accessing axes
-
-                 handles.tracker(x_shot, y_shot) = 1; 
-                 set(handles.text2, 'String', 'Hit!');
+                if handles.tracker(x_shot, y_shot) ~=1 % checks this hasn't been hit before
+                handles.grid(x_shot, y_shot, :) = [255, 255, 0]; %changes square color to yellow
+                 handles.tracker(x_shot, y_shot) = 1; % registers this spot as hit
+                 set(handles.text2, 'String', 'Hit!'); % tells the player they got a hit
                 end
                 
                 imshow(handles.grid, 'Parent', handles.axes1);
-
                 %hold on 
                 break;
             end
@@ -86,34 +79,29 @@ else %only if there is a hit or sink
         end
     end
         if is_sink %only if there is a sink -> will update the sink count.
-        handles.sink_count = handles.sink_count + 1;
-        set(handles.ships_sunk, 'String', handles.sink_count);
+        handles.sink_count = handles.sink_count + 1; 
         
-        handles.grid(x_shot, y_shot, :) = [0, 255, 0];
-
-        %imshow(handles.grid, 'Parent', handles.axes1);
-
-        handles.tracker(x_shot, y_shot) = 1;
-        set(handles.text2, 'String', strcat('You Sunk the', ship, '!'));
+        handles.grid(x_shot, y_shot, :) = [0, 255, 0]; % changes color of square to green
+        handles.tracker(x_shot, y_shot) = 1; % registers that this coordinate has been hit
+        set(handles.text2, 'String', strcat('You Sunk the', ship, '!')); % informs they player they sunk a ship 
           for i = 1:10
         for j = 1:10
             if handles.board(x_shot, y_shot) == handles.board(i,j)
-                handles.grid(i, j, :) = [0, 255, 0];
+                handles.grid(i, j, :) = [0, 255, 0]; % makes all other coordinates for that ship green
                 
                 
             end
         end
           end
         imshow(handles.grid, 'Parent', handles.axes1);
-
         
         end
     if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
-   handles.grid(x_shot, y_shot, :) = [163, 94, 196]; 
-   set(handles.text2, 'String', 'You Won!');
+   handles.grid(x_shot, y_shot, :) = [163, 94, 196]; % makes this square purple
+   set(handles.text2, 'String', 'You Won!'); % tells player they won
     for i = 1:10
         for j = 1:10 
-            handles.grid(i,j, :) = [163, 94, 196];
+            handles.grid(i,j, :) = [163, 94, 196]; % changes the rest of the board to purple
         end
     end
     handles.winner = true;
@@ -121,9 +109,6 @@ else %only if there is a hit or sink
     
 end
 end
-
-set(handles.rounds_left, 'String', handles.totalrounds-handles.current_rounds);
-handles.current_rounds = handles.current_rounds + 1;
 
 
 %current_board=current_board+handles.grid;
