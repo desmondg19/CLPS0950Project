@@ -151,7 +151,7 @@ function showtarget(hObject, eventdata, handles)
  %and shows the game state and the current location of the sliders
  cla(handles.axes1); %clears properties of axes
  imshow(handles.grid ,'Parent', handles.axes1); 
- hold on %
+ hold on 
  h=imshow(grid ,'Parent', handles.axes1); %show the slider location
  set(h,'AlphaData', .1); 
  
