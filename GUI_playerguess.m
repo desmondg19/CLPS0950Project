@@ -87,6 +87,7 @@ else %only if there is a hit or sink
     end
         if is_sink %only if there is a sink -> will update the sink count.
         handles.sink_count = handles.sink_count + 1;
+        set(handles.ships_sunk, 'String', handles.sink_count);
         
         handles.grid(x_shot, y_shot, :) = [0, 255, 0];
 
@@ -120,6 +121,9 @@ else %only if there is a hit or sink
     
 end
 end
+
+set(handles.rounds_left, 'String', handles.totalrounds-handles.current_rounds);
+handles.current_rounds = handles.current_rounds + 1;
 
 
 %current_board=current_board+handles.grid;
