@@ -51,7 +51,8 @@ function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to BattleshipBoard (see VARARGIN)
-
+set(handles.text2, 'String', "Let's Play Battleship!");
+handles.tracker = zeros(10);
 % Choose default command line output for BattleshipBoard
 handles.output = hObject;
 handles.grid=uint8(zeros(10, 10, 3)+128); %setting everything to gray, info shown to user all the time
@@ -86,6 +87,7 @@ imshow(handles.grid,'Parent', handles.axes1);
 % x_target_count = 0;
 global fire_button
 fire_button = true;
+
 % Update handles structure
 guidata(hObject, handles);
 
@@ -207,16 +209,19 @@ guidata(hObject, handles); %updates globally, because reset back to (1,1)
 if fire_button == false;
     showtarget(hObject, eventdata, handles)
 end
+fire_button = true;
+
 end
 
 
 
 %function savematrix(hObject, eventdata, handles))
-%handles.grid=
+%handles.grid
 
 %create matrix to highlight x and y axis coordinates
 
 function showtarget(hObject, eventdata, handles)
+
 
  grid=uint8(zeros(10,10,3));
  grid(handles.coordy, handles.coordx, :)=255;
@@ -230,18 +235,41 @@ function showtarget(hObject, eventdata, handles)
 %  subplot(1,2,2);
 %  imshow(grid);
  
+
+grid=uint8(zeros(10,10,3) + .03 );
+grid(handles.coordy, handles.coordx, :)=255; 
+ 
+cla(handles.axes1)
+ h=imshow(handles.grid ,'Parent', handles.axes1);
+ h=imshow(grid ,'Parent', handles.axes1);
+ 
+ set(h,'AlphaData', .05);
+
+
 end
+
+
+
+
+ 
 
 % --- Executes on slider movement.
 function handles=slideryaxis_Callback(hObject, eventdata, handles)
+global y_movement
 % hObject    handle to slideryaxis (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 yaxisvalue=get(hObject,'Value')
 handles.coordy=abs(yaxisvalue);
-guidata(hObject, handles);
+
+
+
 showtarget(hObject, eventdata, handles)
-    
+
+
+guidata(hObject, handles);
+
+
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
@@ -262,18 +290,20 @@ end
 
 % --- Executes on slider movement.
 function handles=slider2xaxis_Callback(hObject, eventdata, handles)
+
+ 
 % hObject    handle to slider2xaxis (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 xaxisvalue=get(hObject,'Value')
 handles.coordx=xaxisvalue;
-guidata(hObject, handles);
+
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 showtarget(hObject, eventdata, handles)
+guidata(hObject, handles);
  
-
 end
 
 % --- Executes during object creation, after setting all properties.
