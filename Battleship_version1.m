@@ -15,7 +15,7 @@
 %where the computer guesses randomly, and a hard two-player where the
 %computer has a strategy. after you hit run to start, you'll be asked to
 %choose one of those levels. the rest of the instructions will be shown in
-%the command window. 
+%the command window.
 
 disp('Welcome to Battleship');
 valid_difficulty = false;
