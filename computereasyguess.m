@@ -32,6 +32,8 @@ end
 %changes the value of the spot guessed to 1 so it will not be a valid
 %location for the future. 
 cur_val = playerboard(x_guess,y_guess);
+disp(x_guess);
+disp(y_guess);
 playerboard(x_guess,y_guess) = 1;
 type = char(cur_val);
 if type == 'C'
