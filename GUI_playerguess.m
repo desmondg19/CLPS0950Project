@@ -10,11 +10,9 @@ function [handles] = GUI_playerguess(handles)
 %   reached), and a sink_count (the number of ships the player has sunk).
 
 
-%FIND IS_SINK VARIABLE
 
 x_shot = abs(get(handles.slideryaxis, 'Value'));
 y_shot = abs(get(handles.slider2xaxis, 'Value'));
-%%global playergrid=get(handles.grid); %trying to initialize variable to store what the current board looks like
 
 
 %determines the type of ship at that location. 
@@ -70,7 +68,6 @@ else %only if there is a hit or sink
                 end
                 
                 imshow(handles.grid, 'Parent', handles.axes1);
-                %hold on 
                 break;
             end
         end
@@ -111,5 +108,4 @@ end
 end
 
 
-%current_board=current_board+handles.grid;
 end
