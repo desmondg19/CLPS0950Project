@@ -43,7 +43,7 @@ if cur_val == 0
     
 else %only if there is a hit or sink
     
-    is_sink = true; %where is
+    is_sink = true; 
     % changes the value of each ship to assist in changing the color once
     % they have been sunk 
     if type == 'C'
@@ -77,6 +77,7 @@ else %only if there is a hit or sink
     end
         if is_sink %only if there is a sink -> will update the sink count.
         handles.sink_count = handles.sink_count + 1; 
+        set(handles.ships_sunk, 'String', handles.sink_count);
         
         handles.grid(x_shot, y_shot, :) = [0, 255, 0]; % changes color of square to green
         handles.tracker(x_shot, y_shot) = 1; % registers that this coordinate has been hit
@@ -106,6 +107,8 @@ else %only if there is a hit or sink
     
 end
 end
+set(handles.rounds_left, 'String', handles.totalrounds-handles.current_rounds); 
+handles.current_rounds = handles.current_rounds + 1;
 
 
 end
