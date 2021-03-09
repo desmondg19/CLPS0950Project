@@ -35,8 +35,8 @@ end
 %if there is a miss, tells the computer they have missed. 
 if cur_val == 0
     handles.grid(x_shot, y_shot, :) = [255, 0, 0];
-    imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
-     hold on
+    %imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
+     %hold on
 else %only if there is a hit or sink
     is_sink = true; %where is
     handles.board(x_shot, y_shot) = 0;
@@ -45,8 +45,8 @@ else %only if there is a hit or sink
             if handles.board(i,j) == cur_val
                 is_sink = false;
                 handles.grid(x_shot, y_shot, :) = [255, 255, 0];
-                imshow(handles.grid, 'Parent', handles.axes1);
-                hold on 
+                %imshow(handles.grid, 'Parent', handles.axes1); %accessing axes
+                %hold on 
                 break;
             end
         end
@@ -57,7 +57,7 @@ else %only if there is a hit or sink
     if is_sink %only if there is a sink -> will update the sink count.
         handles.sink_count = handles.sink_count + 1;
         handles.grid(x_shot, y_shot, :) = [0, 255, 0];
-        imshow(handles.grid, 'Parent', handles.axes1);
+        %imshow(handles.grid, 'Parent', handles.axes1);
         
     end
 end
