@@ -220,27 +220,16 @@ function showtarget(hObject, eventdata, handles)
 
  grid=uint8(zeros(10,10,3));
  grid(handles.coordy, handles.coordx, :)=255;
+ cla(handles.axes1); %clears properties of axes
+ imshow(handles.grid ,'Parent', handles.axes1); %show the game state
+ hold on %want to render something else ontop of previous render
+ h=imshow(grid ,'Parent', handles.axes1); %show the slider location
+ set(h,'AlphaData', .1); %set slider image transparency
+%  subplot(1,2,1);
+%  imshow(handles.grid);
+%  subplot(1,2,2);
+%  imshow(grid);
  
-%     for i = 1:10
-%     for j = 1:10 
-%         if handles.grid(i, j, :) == [255,0, 0] 
-%             set(grid(i,j),'AlphaData', 0) 
-%              end
-%     end
-% end
-
-   alpha = zeros(10) + 0.3;
-   h=imshow(grid ,'Parent', handles.axes1);
-%    global y_target_count
-%    global x_target_count
-%    if  y_target_count == 0  x_target_count == 0
-   set(h,'AlphaData', .1); 
-%    y_target_count = 1
-%    x_target_count = 1
-%    end
-   
-
-
 end
 
 % --- Executes on slider movement.
