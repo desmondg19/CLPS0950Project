@@ -1,14 +1,21 @@
-% %functions that are in this folder that are actually being used in this
-% %version of the code
-% 1) shipplacer - generated position of ships randomly on board
-% 2) player guess - runs the code when the player wants to guess
-% 3) playershipplacer - allows player to place their ships, and shipposn
-%       function is used within this
-% 4) computer easy guess - medium level computer guessing pattern (random)
-% 5) computer hard guess - hard level computer guessing pattern (strategic)
+% %functions that are in this folder that are used in this version of the
+% %game
+% 1) shipplacer - generates position of ships randomly on board for
+%    computer
+% 2) playerguess - runs the code when the player wants to guess
+% 3) playershipplacer - allows player to place their ships
+%    shipposnfunction is used within this
+% 4) computereasyguess - medium level computer guessing pattern (random)
+% 5) computesteps - hard level computer guessing pattern (strategic)
+%    computerhardguess is used within this
+%    hitoutcome is included within the computerhardguess function.
+% each of these functions has an explanatory note with inputs and outputs. 
 
-%issues i'm coming across: 
-% 1) errors if they do not input a coordinate 
+%There are three levels, an easy one-player (you only), a medium two-player
+%where the computer guesses randomly, and a hard two-player where the
+%computer has a strategy. after you hit run to start, you'll be asked to
+%choose one of those levels. the rest of the instructions will be shown in
+%the command window.
 
 disp('Welcome to Battleship');
 valid_difficulty = false;
@@ -21,6 +28,7 @@ while valid_difficulty == false
     end
 end
 
+%this initializes the ships that will be used elswhere in the three levels
 ships = [" Carrier", " Battleship", " Cruiser", " Submarine", " Destroyer"];
 shiplist = [char("C"), char("B"), char("R"), char("S"), char("D")];
 shiplength = [5, 4, 3, 3, 2];
@@ -33,13 +41,14 @@ if difficulty == 1 %easy level: one player version
     valid_rounds = false;
     while valid_rounds == false
         totalrounds = input('How many guesses do you want to have? (17+)');
-        if totalrounds >= 17
+        if totalrounds >= 17 %must have at least 17 turns to win
             valid_rounds = true;
             break;
         else
             disp('Invalid number of guesses');
         end
     end
+    
     %generates an image of the player guesses + sets up guesser function
     global playerguesses;
     playerguesses = cat(3, sqr, sqr, sqr);
@@ -52,17 +61,12 @@ if difficulty == 1 %easy level: one player version
     while current_rounds <= totalrounds
         [board, playerguesses, winner, sink_count] = playerguess(board, winner, sink_count);
         imagesc(playerguesses)
-    %subplot(1,2,2)
-    %x = 1;
-    % y = current_rounds;
-    % %bar(x,y,'r')
-    %title('Turns Used')
         current_rounds = current_rounds + 1;
     end
     
     disp('You used up all your turns! Try again next time!');
 
-elseif difficulty == 2 %medium level: two player - computer in easyguess mode
+elseif difficulty == 2 %medium level: two player - computer in easyguess
     %This code allows the player to set up the game by typing input coordinates.
     %Then, it generates the computer's board.
     disp('Start by placing your ships on the 10 by 10 grid');

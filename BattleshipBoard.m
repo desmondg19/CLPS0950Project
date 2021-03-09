@@ -15,16 +15,8 @@ function varargout = BattleshipBoard(varargin)
 %      unrecognized property name or invalid value makes property application
 %      stop.  All inputs are passed to BattleshipBoard_OpeningFcn via varargin.
 %
-%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
-%      instance to run (singleton)".
 %
-% See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help BattleshipBoard
-
-% Last Modified by GUIDE v2.5 02-Mar-2021 17:39:44
-
-% Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
@@ -46,31 +38,30 @@ end
 end
 % --- Executes just before BattleshipBoard is made visible.
 function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to BattleshipBoard (see VARARGIN)
+%BattleshipBoard_OpeningFcn initializes several attributes to the handles
+%variable
+
 set(handles.text2, 'String', "Let's Play Battleship!");
 set(handles.rounds_left, 'String', '30');
 set(handles.ships_sunk, 'String', '0');
 handles.tracker = zeros(10);
 % Choose default command line output for BattleshipBoard
+
 handles.output = hObject;
-handles.grid=uint8(zeros(10, 10, 3)+128); %setting everything to gray, info shown to user all the time
+
+%This initializes the gameboard that is visible to the user throughout
+%gameplay
+handles.grid=uint8(zeros(10, 10, 3)+128); 
 handles.coordx=1;
 handles.coordy=1;
 
-%initializing the ships and the ship lengths
+%This initializes the ship types, names, and lengths and lengths
 handles.shiplist = [char("C"), char("B"), char("R"), char("S"), char("D")];
 handles.shiplength = [5, 4, 3, 3, 2];
 handles.ships= [" Carrier", " Battleship", " Cruiser", " Submarine", " Destroyer"];
 
-%initialize board
-handles.board=shipplacer(handles.shiplist, handles.shiplength); %info never shown to user- hidden
-
-
-numSteps=10; %go ten steps, value 1, min 1
+%This code sets the sliders to move by increments of 1 from 1-10
+numSteps=10; 
 
 set(handles.slider2xaxis, 'Min', 1); 
 set(handles.slider2xaxis, 'Max', numSteps); 
@@ -83,12 +74,6 @@ set(handles.slideryaxis, 'Value', -1);
 set(handles.slideryaxis, 'SliderStep', [1/(numSteps-1) , 1/(numSteps-1) ]);
 
 imshow(handles.grid,'Parent', handles.axes1);
-% global y_target_count 
-% y_target_count= 0;
-% global x_target_count 
-% x_target_count = 0;
-% global fire_button
-% fire_button = true;
 
 % Update handles structure
 guidata(hObject, handles);
@@ -113,15 +98,9 @@ end
 
 % --- Executes on button press in easy_button.
 function easy_button_Callback(hObject, eventdata, handles)
-% hObject    handle to easy_button (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-%just need to initialize not play the game, 
+%When users press the green start button, the ships will be randomly placed on the board. The location of the ships are not visible to the user.
 handles.board = shipplacer(handles.shiplist, handles.shiplength);
-
 handles.totalrounds = 30;
-
 handles.sink_count = 0;
 handles.winner = false;
 handles.current_rounds = 1;
@@ -142,28 +121,16 @@ end
 
 % --- Executes on button press in Fire.
 function Fire_Callback(hObject, eventdata, handles)
-% global fire_button
-% fire_button = false;
-% hObject    handle to Fire (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+%When the red fire button is pressed, the coordinates that the user has
+%selected are compared to the coordinates of the ship locations. If the
+%user successfully hits a ship, the square will turn yellow. If the user
+%sinks a ship, the squares will turn green. If the user misses, the square
+%will turn red. Everytime the fire button is pressed, the number of shots
+%they have left will decrease by 1. After all 30 shots have been fired,
+%they will not be able to aim at new coordinates.
 if handles.current_rounds<=30
- handles=GUI_playerguess(handles); %play the game for one round, reuse for every level of game (need to verify rounds)
-
-%Resetting sliders to default position
-% set(handles.slider2xaxis, 'Value', 1);
-% set(handles.slideryaxis, 'Value', -1);
-% handles=slider2xaxis_Callback(hObject, eventdata, handles); 
-% handles=slideryaxis_Callback(hObject, eventdata, handles);
-  guidata(hObject, handles); %updates globally, because reset back to (1,1)
-% global y_target_function
-% global x_target_function 
-% y_target_function = 0
-% x_target_function = 0
-% if fire_button == false;
-%     showtarget(hObject, eventdata, handles)
-% end
-% fire_button = true;
+  handles=GUI_playerguess(handles); 
+  guidata(hObject, handles); 
   if handles.current_rounds==31 && handles.sink_count~=5
     set(handles.text2, 'String', 'You Lose :(');
   end
@@ -173,27 +140,21 @@ end
 
 
 
-%function savematrix(hObject, eventdata, handles))
-%handles.grid
-
-%create matrix to highlight x and y axis coordinates
-
 function showtarget(hObject, eventdata, handles)
-
+%The showtarget function creates a matrix that displays the current game
+%state (the user's hits, sinks, and misses), and highlights the square that
+%they are currently aiming at with the sliders.
 
  grid=uint8(zeros(10,10,3));
  grid(handles.coordy, handles.coordx, :)=255;
+ %The following code clears the current properties displayed on the axes
+ %and shows the game state and the current location of the sliders
  cla(handles.axes1); %clears properties of axes
- imshow(handles.grid ,'Parent', handles.axes1); %show the game state
- hold on %want to render something else ontop of previous render
+ imshow(handles.grid ,'Parent', handles.axes1); 
+ hold on 
  h=imshow(grid ,'Parent', handles.axes1); %show the slider location
- set(h,'AlphaData', .1); %set slider image transparency
-%  subplot(1,2,1);
-%  imshow(handles.grid);
-%  subplot(1,2,2);
-%  imshow(grid);
+ set(h,'AlphaData', .1); 
  
-
 grid=uint8(zeros(10,10,3) + .03 );
 grid(handles.coordy, handles.coordx, :)=255; 
  
@@ -205,41 +166,23 @@ cla(handles.axes1)
 
 
 end
-
-
-
-
  
 
 % --- Executes on slider movement.
 function handles=slideryaxis_Callback(hObject, eventdata, handles)
-global y_movement
-% hObject    handle to slideryaxis (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+%This function controls the slider along the y-axis
+
 yaxisvalue=get(hObject,'Value')
 handles.coordy=abs(yaxisvalue);
-
-
-
 showtarget(hObject, eventdata, handles)
-
-
 guidata(hObject, handles);
 
 
-
-% Hints: get(hObject,'Value') returns position of slider
-%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 end
 
 % --- Executes during object creation, after setting all properties.
 function slideryaxis_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slideryaxis (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: slider controls usually have a light gray background.
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
@@ -248,16 +191,9 @@ end
 
 % --- Executes on slider movement.
 function handles=slider2xaxis_Callback(hObject, eventdata, handles)
-
- 
-% hObject    handle to slider2xaxis (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+%This function controls the slider along the x-axis
 xaxisvalue=get(hObject,'Value')
 handles.coordx=xaxisvalue;
-
-% Hints: get(hObject,'Value') returns position of slider
-%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 showtarget(hObject, eventdata, handles)
 guidata(hObject, handles);
@@ -266,11 +202,6 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function slider2xaxis_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider2xaxis (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: slider controls usually have a light gray background.
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
