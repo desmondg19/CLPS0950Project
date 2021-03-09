@@ -15,7 +15,7 @@ function [playerboard, winner, comp_sink_count] = computesteps(playerboard, winn
 global playergrid;
 global nextsteps;
 global count_nextsteps;
-global playerboard
+global playerboard;
 
 
 %the first part of this if/elese statement is used if there are any x,y
