@@ -14,7 +14,7 @@ for i = 1:length(shiplist)
         direction = randi(2); %1 = horizontal placement; 2 = vertical
         
         if direction == 1
-            if y + size - 1 <= 10
+            if y + size - 1 <= 10   %checks to make sure that a vertical ship placement is valid 
                 valid = 1;
                 for j = 1:size
                     if board(x, y+j-1) ~= 0
@@ -29,7 +29,7 @@ for i = 1:length(shiplist)
                 end
             end
         else
-            if x + size - 1 <= 10
+            if x + size - 1 <= 10   % checks to make sure a horizontal ship placement is valid
                 valid = 1;
                 for j = 1:size
                     if board(x + j - 1, y) ~= 0

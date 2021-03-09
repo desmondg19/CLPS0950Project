@@ -6,7 +6,7 @@ function [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(
 %   has been declared yet), and comp_sink_count (the number of ships that
 %   have previously been sunk by the computer. 
 %   This function outputs playerboard, with the point the computer guessed
-%   changing to have a value of 1 so that the computer can't guess it agai,
+%   changing to have a value of 1 so that the computer can't guess it again,
 %   a playergrid (an image where the player can see where their ships are
 %   as well as all the points the computer has guessed), if a winner has
 %   been declared, and an updated comp_sink_count based on the changes made
@@ -15,7 +15,7 @@ function [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(
 global playergrid;
 
 %first section of code checks to make sure a guess is valid (we want to be
-%sure that the computer is not repeating a number that it has previously
+%sure that the computer is not repeating a square that it has previously
 %guessed before)
 valid_guess = false;
 while valid_guess == false
@@ -56,7 +56,7 @@ if cur_val == 0
     playergrid(x_guess, y_guess, :) = [1, 0, 0];
     subplot(1,2,2)
     imagesc(playergrid);
-%next section checks for a hit, in which case the color changes to yellow. 
+%next section checks for a hit, in which case the color changes to green. 
 else
     is_sink = true;
     for i = 1:10
@@ -64,7 +64,7 @@ else
             if playerboard(i,j) == cur_val
                 disp(strcat('computer hit the', ' ', ship, '!'));
                 is_sink = false;
-                playergrid(x_guess, y_guess, :) = [1, 1, 0];
+                playergrid(x_guess, y_guess, :) = [1, 0, 0];
                 subplot(1,2,2)
                 imagesc(playergrid);
                 break;
