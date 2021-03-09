@@ -52,6 +52,8 @@ function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to BattleshipBoard (see VARARGIN)
 set(handles.text2, 'String', "Let's Play Battleship!");
+set(handles.rounds_left, 'String', '30');
+set(handles.ships_sunk, 'String', '0');
 handles.tracker = zeros(10);
 % Choose default command line output for BattleshipBoard
 handles.output = hObject;
@@ -85,8 +87,8 @@ imshow(handles.grid,'Parent', handles.axes1);
 % y_target_count= 0;
 % global x_target_count 
 % x_target_count = 0;
-global fire_button
-fire_button = true;
+% global fire_button
+% fire_button = true;
 
 % Update handles structure
 guidata(hObject, handles);
@@ -136,80 +138,36 @@ function easy_button_ButtonDownFcn(hObject, eventdata, handles)
 end
 
 
-% --- Executes on button press in medium_button.
-function medium_button_Callback(hObject, eventdata, handles)
-% hObject    handle to medium_button (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-handles.board = shipplacer(handles.shiplist, handles.shiplength);
-handles.playerboard = playershipplacer(handles.ships, handles.shiplist, handles.shiplength);
-
-handles.sink_count = 0;
-handles.winner = false;
-handles.current_rounds = 1;
-guidata(hObject, handles);
-handles.comp_sink_count = 0;
-
-while handles.winner == false
-   %Fire_Callback(hObject, eventdata, handles) %trying to call the function Fire_Callback 
-   if handles.winner == true
-       break;
-   end
-%   [playerboard, playergrid, winner, comp_sink_count] = computereasyguess(playerboard, winner, comp_sink_count);
-
-end
-
-end
-
-
-% --- Executes on button press in hard_button.
-function hard_button_Callback(hObject, eventdata, handles)
-% hObject    handle to hard_button (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-handles.board = shipplacer(handles.shiplist, handles.shiplength);
-handles.playerboard = playershipplacer(handles.ships, handles.shiplist, handles.shiplength);
-
-handles.sink_count = 0;
-handles.winner = false;
-handles.current_rounds = 1;
-guidata(hObject, handles);
-handles.comp_sink_count = 0;
-
-%User places ships on board
-%function [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength)
-
-
-end
 
 
 % --- Executes on button press in Fire.
 function Fire_Callback(hObject, eventdata, handles)
-global fire_button
-fire_button = false;
+% global fire_button
+% fire_button = false;
 % hObject    handle to Fire (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-handles=GUI_playerguess(handles); %play the game for one round, reuse for every level of game (need to verify rounds)
+if handles.current_rounds<=30
+ handles=GUI_playerguess(handles); %play the game for one round, reuse for every level of game (need to verify rounds)
 
 %Resetting sliders to default position
 % set(handles.slider2xaxis, 'Value', 1);
 % set(handles.slideryaxis, 'Value', -1);
 % handles=slider2xaxis_Callback(hObject, eventdata, handles); 
 % handles=slideryaxis_Callback(hObject, eventdata, handles);
-guidata(hObject, handles); %updates globally, because reset back to (1,1)
+  guidata(hObject, handles); %updates globally, because reset back to (1,1)
 % global y_target_function
 % global x_target_function 
 % y_target_function = 0
 % x_target_function = 0
-if fire_button == false;
-    showtarget(hObject, eventdata, handles)
+% if fire_button == false;
+%     showtarget(hObject, eventdata, handles)
+% end
+% fire_button = true;
+  if handles.current_rounds==31 && handles.sink_count~=5
+    set(handles.text2, 'String', 'You Lose :(');
+  end
 end
-fire_button = true;
 
 end
 
