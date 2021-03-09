@@ -23,6 +23,8 @@ Link to video tutorial:
 
 
 Link to Project Proposal: https://docs.google.com/document/d/1lUxl3gTnLbM4dsZv84CpBwCILhl51y_G2iGsOVaII9s/edit?usp=sharing
+
+
 Link to Work log document: https://docs.google.com/document/d/1w997U1PIv6SsHYQlf4a5lZWh-fyV1k1iM8q4dBbL-4E/edit?usp=sharing 
 
 Work Log + Drivers of the Relevant Sections - We organized this by each function and included who coded it, who debugged it, and how many hours it took for each process. At the bottom, we explained what we did in the 12 hours and who the drivers/observers were. 
