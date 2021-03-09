@@ -9,7 +9,7 @@ function [board, playerguesses, winner, sink_count] = playerguess(board, winner,
 %   hits and misses), a winner (boolean that updates if a winner has been
 %   reached), and a sink_count (the number of ships the player has sunk).
 
-global playerguesses
+global playerguesses;
 
 x_shot = input('What row do you want to hit (1-10)?');
 x_shot = round(x_shot);

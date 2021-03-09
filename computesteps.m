@@ -1,22 +1,21 @@
 function [playerboard, winner, comp_sink_count] = computesteps(playerboard, winner, comp_sink_count)
 %COMPUTESTEPS This function parallels the computereasyguess function, but
-%for the harder/smarter computer. 
+%for the harder/smarter computer.
 %   This function takes in a playerboard (a matrix with a list of locations
 %   where the players ships are), a winner (a boolean saying if a winner
 %   has been declared yet), and comp_sink_count (the number of ships that
-%   have previously been sunk by the computer. 
+%   have previously been sunk by the computer.
 %   This function outputs playerboard, with the point the computer guessed
 %   changing to have a value of 1 so that the computer can't guess it agai,
 %   a playergrid (an image where the player can see where their ships are
 %   as well as all the points the computer has guessed), if a winner has
 %   been declared, and an updated comp_sink_count based on the changes made
-%   this round. 
+%   this round.
 
 global playergrid;
 global nextsteps;
 global count_nextsteps;
 global playerboard;
-
 
 %the first part of this if/elese statement is used if there are any x,y
 %points that should be checked in next_steps. the else clause will be used
@@ -27,7 +26,7 @@ if count_nextsteps ~= 0
         x_guess = nextsteps(1);
         y_guess = nextsteps(2);
         cur_val = playerboard(x_guess, y_guess);
-
+        
         if cur_val == 1
             nextsteps = nextsteps(3:end);
             count_nextsteps = count_nextsteps-1;
@@ -39,9 +38,9 @@ if count_nextsteps ~= 0
     
     disp(x_guess);
     disp(y_guess);
-
+    
     %this section will remove the new trial point from the overall list of
-    %next steps for the next round of the computer's guesses. 
+    %next steps for the next round of the computer's guesses.
     if length(nextsteps) == 2
         nextsteps = [];
         count_nextsteps = 0;
@@ -65,7 +64,7 @@ if count_nextsteps ~= 0
     end
     
     %code here is basically idential to computer easy guess - has different
-    %outcomes based on if the computer misses, hits, or sinks. 
+    %outcomes based on if the computer misses, hits, or sinks.
     if cur_val == 0
         disp('computer missed!');
         playergrid(x_guess, y_guess, :) = [1, 0, 0];
@@ -149,7 +148,7 @@ else %runs if there are no nextsteps for the computer to try.
                     playergrid(x_guess, y_guess, :) = [0, 1, 0];
                     subplot(1,2,2)
                     imagesc(playergrid);
-                    [nextsteps, count_nextsteps] = computerhardguess(playerboard, x_guess, y_guess)
+                    [nextsteps, count_nextsteps] = computerhardguess(playerboard, x_guess, y_guess);
                     break;
                 end
             end

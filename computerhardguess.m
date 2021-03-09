@@ -6,9 +6,9 @@ function [nextsteps, count_nextsteps] = computerhardguess(playerboard, x_start, 
 %   the next guesses made by the computer will also be hits. It will also
 %   output the total count of all next steps that remain. 
 
-global nextsteps
-global count_nextsteps
-global playerboard
+global nextsteps;
+global count_nextsteps;
+global playerboard;
 
 point_complete = false;
 

@@ -6,7 +6,7 @@ function [outcome] = hitoutcome(playerboard, x_guess, y_guess)
 %   This function outputs a string ('hit', 'mis', or 'sin' depending on te
 %   outcome of firing at that location. 
 
-global playerboard
+global playerboard;
 
 cur_val = playerboard(x_guess,y_guess);
 
@@ -30,6 +30,4 @@ else
         outcome = 'sin';
     end
 end
-
-disp(outcome);
 end

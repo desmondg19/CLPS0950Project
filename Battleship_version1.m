@@ -41,7 +41,7 @@ if difficulty == 1 %easy level: one player version
         end
     end
     %generates an image of the player guesses + sets up guesser function
-    global playerguesses
+    global playerguesses;
     playerguesses = cat(3, sqr, sqr, sqr);
     sink_count = 0;
     winner = false;
@@ -67,12 +67,12 @@ elseif difficulty == 2 %medium level: two player - computer in easyguess mode
     %Then, it generates the computer's board.
     disp('Start by placing your ships on the 10 by 10 grid');
     disp('All ships are placed to the right and down from the input coordinate.');
-    global playergrid
+    global playergrid;
     [playerboard, playergrid] = playershipplacer(ships, shiplist, shiplength);
     board = shipplacer(shiplist, shiplength);
     
     %computer and player take turns guessing spaces.
-    global playerguesses
+    global playerguesses;
     playerguesses = cat(3, sqr, sqr, sqr);
     sink_count = 0;
     winner = false;
@@ -100,10 +100,10 @@ else %% Hard: two player - computer in hardguess mode
     board = shipplacer(shiplist, shiplength);
     
     %computer and player take turns guessing spaces.
-    global playerguesses
-    global nextsteps
-    global count_nextsteps
-    global playerboard
+    global playerguesses;
+    global nextsteps;
+    global count_nextsteps;
+    global playerboard;
     
     playerguesses = cat(3, sqr, sqr, sqr);
     sink_count = 0;
