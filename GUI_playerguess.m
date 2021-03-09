@@ -39,7 +39,10 @@ if cur_val == 0
     imshow(handles.grid, 'Parent', handles.axes1);%x_shot and y_shot are position in matrix
      hold on
      handles.tracker(x_shot,y_shot) = 1; 
+     set(handles.text2, 'String', 'Miss!');
     end
+  
+    
 else %only if there is a hit or sink
     
     is_sink = true; %where is
@@ -61,7 +64,9 @@ else %only if there is a hit or sink
                 if handles.tracker(x_shot, y_shot) ~=1
                 handles.grid(x_shot, y_shot, :) = [255, 255, 0];
                  handles.tracker(x_shot, y_shot) = 1; 
+                 set(handles.text2, 'String', 'Hit!');
                 end
+                
                 imshow(handles.grid, 'Parent', handles.axes1);
                 %hold on 
                 break;
@@ -76,6 +81,7 @@ else %only if there is a hit or sink
         
         handles.grid(x_shot, y_shot, :) = [0, 255, 0];
         handles.tracker(x_shot, y_shot) = 1;
+        set(handles.text2, 'String', strcat('You Sunk the', ship, '!'));
           for i = 1:10
         for j = 1:10
             if handles.board(x_shot, y_shot) == handles.board(i,j)
@@ -90,6 +96,7 @@ else %only if there is a hit or sink
         end
     if handles.sink_count == 5 %if the player has sunk 5 ships, they win.
    handles.grid(x_shot, y_shot, :) = [163, 94, 196]; 
+   set(handles.text2, 'String', 'You Won!');
     for i = 1:10
         for j = 1:10 
             handles.grid(i,j, :) = [163, 94, 196];

@@ -51,6 +51,7 @@ function BattleshipBoard_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to BattleshipBoard (see VARARGIN)
+set(handles.text2, 'String', "Let's Play Battleship!");
 handles.tracker = zeros(10);
 % Choose default command line output for BattleshipBoard
 handles.output = hObject;
