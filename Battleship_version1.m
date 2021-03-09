@@ -8,7 +8,7 @@
 % 5) computer hard guess - hard level computer guessing pattern (strategic)
 
 %issues i'm coming across: 
-% 1) errors if they do not input a coordinate
+% 1) errors if they do not input a coordinate 
 
 disp('Welcome to Battleship');
 valid_difficulty = false;
