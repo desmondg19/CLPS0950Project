@@ -10,7 +10,7 @@ global playerboard;
 
 cur_val = playerboard(x_guess,y_guess);
 
-if cur_val == 0 | cur_val == 1
+if cur_val == 0 | cur_val == 1 %0 means no ship, 1 means previous guess
     outcome = 'mis';
 else
     is_sink = true;

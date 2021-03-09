@@ -26,6 +26,7 @@ if y_shot < 1 | y_shot > 10
     y_shot = input('What y coordinate do you want to hit (1-10)?');
 end
 
+%makes sure the player's guess is not the same as a previous guess
 valid_guess = false;
 while valid_guess == false
     if board(x_shot, y_shot) ~=1
@@ -54,7 +55,7 @@ elseif type == 'B'
     ship = ' battleship';
 end
 
-%if there is a miss, tells the computer they have missed. 
+%if there is a miss, tells the players they have missed. 
 if cur_val == 0
     disp('miss!');
     playerguesses(x_shot, y_shot, :) = [1, 0, 0];

@@ -1,5 +1,5 @@
 function [nextsteps, count_nextsteps] = computerhardguess(playerboard, x_start, y_start)
-%COMPUTERHARDGUESS This function will taken in an x and y location as well
+%COMPUTERHARDGUESS This function will take in an x and y location as well
 %as the matrix with the locations of the players ships. 
 %   The function will output all adjacent spots that have a ship located at
 %   that position. Those spots will be added to the list nextsteps, so that

@@ -6,11 +6,8 @@ function [playerboard, winner, comp_sink_count] = computesteps(playerboard, winn
 %   has been declared yet), and comp_sink_count (the number of ships that
 %   have previously been sunk by the computer.
 %   This function outputs playerboard, with the point the computer guessed
-%   changing to have a value of 1 so that the computer can't guess it agai,
-%   a playergrid (an image where the player can see where their ships are
-%   as well as all the points the computer has guessed), if a winner has
-%   been declared, and an updated comp_sink_count based on the changes made
-%   this round.
+%   changing to have a value of 1 so that the computer can't guess it
+%   again, if a winner has been declared, and the computer's sink count.
 
 global playergrid;
 global nextsteps;
@@ -22,7 +19,9 @@ global playerboard;
 %if no such points exist (after a previous miss or a previous sink)
 if count_nextsteps ~= 0
     validguess = false;
-    while validguess == false
+    %checks to make sure the point being guessed has not been guessed
+    %before.
+    while validguess == false 
         x_guess = nextsteps(1);
         y_guess = nextsteps(2);
         cur_val = playerboard(x_guess, y_guess);
@@ -30,7 +29,6 @@ if count_nextsteps ~= 0
         if cur_val == 1
             nextsteps = nextsteps(3:end);
             count_nextsteps = count_nextsteps-1;
-            disp('false guess');
         else
             validguess = true;
         end
@@ -49,6 +47,8 @@ if count_nextsteps ~= 0
         count_nextsteps = count_nextsteps-1;
     end
     
+    %changes the value of the position to 1 so it is not valid for the
+    %future and finds the type of ship (if any) at the guessed location. 
     playerboard(x_guess,y_guess) = 1;
     type = char(cur_val);
     if type == 'C'
@@ -65,14 +65,14 @@ if count_nextsteps ~= 0
     
     %code here is basically idential to computer easy guess - has different
     %outcomes based on if the computer misses, hits, or sinks.
-    if cur_val == 0
+    if cur_val == 0 %misses
         disp('computer missed!');
         playergrid(x_guess, y_guess, :) = [1, 0, 0];
         subplot(1,2,2)
         imagesc(playergrid);
     else
         is_sink = true;
-        for i = 1:10
+        for i = 1:10 %code below is for a hit + changes to green
             for j = 1:10
                 if playerboard(i,j) == cur_val
                     disp(strcat('computer hit the', ' ', ship, '!'));
@@ -88,7 +88,7 @@ if count_nextsteps ~= 0
                 break;
             end
         end
-        if is_sink
+        if is_sink %tests if there is a sink
             nextsteps = [];
             count_nextsteps = 0;
             comp_sink_count = comp_sink_count + 1;
@@ -99,12 +99,14 @@ if count_nextsteps ~= 0
         end
     end
     
-    if comp_sink_count == 5
+    if comp_sink_count == 5 %computer wins if 5 guesses
         disp('The Computer Wins!!');
         winner = true;
         return;
     end
-else %runs if there are no nextsteps for the computer to try.
+else %runs if there are no nextsteps for the computer to try. 
+    %starts with a random point, but otherwise very similar to the code
+    %under the if clause. 
     valid_guess = false;
     while valid_guess == false
         x_guess = randi(10);
