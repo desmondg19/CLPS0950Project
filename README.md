@@ -13,9 +13,12 @@ GUI version: For the easy level of the game, the computer randomly places five s
 Command window version: The easy, medium, and hard levels of the game can be played in the command window. The easy version is the same as the GUI, but with the user entering the coordinates to fire at. In the medium and hard versions, the user places their own ships on the board and plays against the computer. A display window shows where the computer has aimed and where the user has aimed. In the hard version of the game, the computer is more methodical in guessing where the user has placed their ships. The computer keeps track of where it has successfully hit a target and aims at one of the adjacent squares. The game ends when either the computer sinks all of the user’s ships or the user sinks all of the computer’s ships. The code for these levels can be accessed by running the file “Battleship_version1.m”.
 
 Link to video tutorial: 
+
+
 ![BattleshipDemo1](https://user-images.githubusercontent.com/73854789/110515624-94a30380-80d6-11eb-9b64-25ae1de916ed.gif)
 
 
+![BattleshipDemo2](https://user-images.githubusercontent.com/73854789/110515731-b308ff00-80d6-11eb-8e63-a7959edd6b2f.gif)
 
 
 
